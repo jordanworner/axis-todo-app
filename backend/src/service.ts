@@ -9,3 +9,17 @@ export const listTodos = async (): Promise<Todo[]> => {
 
   return docs.map(doc => Todo.parse(doc));
 };
+
+// create a new todo
+export const createTodo = async (todo: Todo): Promise<void> => {
+  const collection = getTodoCollection();
+  const now = new Date();
+
+  await collection.insertOne({
+    ...todo,
+    createdAt: now,
+    updateAt: now,
+  });
+
+  return;
+};

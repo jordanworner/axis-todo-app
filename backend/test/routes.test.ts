@@ -106,13 +106,20 @@ test.serial('list todos', async t => {
 	t.is(res.body.todos?.length, 5);
 });
 
-test.serial('create todos', async t => {
-	const {app} = t.context;
+test.serial('create todo', async t => {
+	const {app, collection} = t.context;
 	const res = await request(app)
 		.post('/api/todos')
-		.send({name: 'My new todo'});
+		.send({
+			name: 'My new todo'
+		});
+
+	const doc = await collection.findOne({
+		todoId: res.body.todo.todoId
+	});
 
 	t.is(res.status, 201);
+	t.not(doc, null);
 });
 
 test.serial('update todos', async t => {

@@ -1,5 +1,6 @@
 import type { Express, RequestHandler, ErrorRequestHandler } from 'express';
 import { Todo } from './schema';
+import * as todoService from './service';
 
 // Simple health check handler to test server
 export const healthCheck: RequestHandler = (req, res) => {
@@ -25,11 +26,17 @@ export interface ListTodosResponse {
 
 export const listTodosHandler: RequestHandler<
   {}, ListTodosResponse, ListTodosRequest
-> = (req, res) => {
-  res.status(200).json({
-    success: true,
-    todos: []
-  });
+> = async (req, res, next) => {
+  try {
+    const todos = await todoService.listTodos();
+
+    res.status(200).json({
+      success: true,
+      todos
+    });
+  } catch (err) {
+    next(err)
+  }
 };
 
 // Create Todo
@@ -47,9 +54,10 @@ export interface CreateTodoResponse {
 
 export const createTodoHandler: RequestHandler<
   {}, CreateTodoResponse, CreateTodoRequest
-> = (req, res) => {
+> = async (req, res, next) => {
   const data = req.body || {};
 
+  // will use id if provided
   const parsed = Todo.safeParse(data);
 
   if (!parsed.success) {
@@ -57,10 +65,16 @@ export const createTodoHandler: RequestHandler<
     return;
   }
 
-  res.status(201).json({
-    success: true,
-    todo: parsed.data
-  });
+  try {
+    await todoService.createTodo(parsed.data);
+
+    res.status(201).json({
+      success: true,
+      todo: parsed.data
+    });
+  } catch (err) {
+    next(err)
+  }
 };
 
 // Update Todo
