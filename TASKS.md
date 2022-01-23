@@ -2,16 +2,16 @@
 
 ## Backend
 
-- [ ] Scaffolding
-- [ ] MongoDB
-- [ ] Test setup
+- [x] Scaffolding
+- [x] MongoDB
+- [x] Test setup
 - [ ] Express server
 - [ ] Error handling
 - [ ] Schema
 - [ ] Routes
 - [ ] Service methods
 - [ ] Logging
-- [ ] Config
+- [x] Config
 
 ## Frontend
 
