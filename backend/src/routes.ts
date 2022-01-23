@@ -35,7 +35,7 @@ export const listTodosHandler: RequestHandler<
       todos
     });
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 
@@ -73,7 +73,7 @@ export const createTodoHandler: RequestHandler<
       todo: parsed.data
     });
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 
@@ -91,7 +91,7 @@ export interface UpdateTodoResponse {
 
 export const updateTodoHandler: RequestHandler<
   { todoId: string }, UpdateTodoResponse, UpdateTodoRequest
-> = (req, res) => {
+> = async (req, res, next) => {
   const todoId = Todo.shape.todoId.parse(req.params.todoId);
   const data = req.body || {};
 
@@ -102,10 +102,23 @@ export const updateTodoHandler: RequestHandler<
     return;
   }
 
-  res.status(200).json({
-    success: true,
-    todo: parsed.data
-  });
+  try {
+    const todo = await todoService.updateTodo(todoId, parsed.data);
+
+    if (!todo) {
+      res.status(200).json({
+        success: false
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      todo
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
 // Delete Todo
@@ -117,12 +130,18 @@ export interface DeleteTodoResponse {
 
 export const deleteTodoHandler: RequestHandler<
   { todoId: string }, DeleteTodoResponse, DeleteTodoRequest
-> = (req, res) => {
+> = async (req, res, next) => {
   const todoId = Todo.shape.todoId.parse(req.params.todoId);
 
-  res.status(204).json({
-    success: true,
-  });
+  try {
+    const success = await todoService.deleteTodo(todoId);
+
+    res.status(204).json({
+      success,
+    });
+  } catch (err) {
+    next(err);
+  }
 }
 
 // Set Completed

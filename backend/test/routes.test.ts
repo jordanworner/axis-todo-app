@@ -6,6 +6,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import { setupServer } from '../src/server';
 import { databaseConnect, getClient } from '../src/database';
 import { getTodoCollection, setupCollections, TodoCollection } from '../src/collection';
+import { todoFixtures } from './helpers/fixtures';
 
 const test = anyTest as TestFn<{
   app: express.Express,
@@ -36,55 +37,7 @@ test.before(async t => {
 
 test.beforeEach(async t => {
 	const {collection} = t.context;
-	const now = new Date();
-
-	collection.insertMany([
-		{
-			todoId: '56a1270f-41d6-4d4f-b51c-68bb494a07a7', 
-			name: 'My Todo 1',
-			description: 'My Todo 1 description',
-			dueDate: 0,
-			completed: false,
-			createdAt: now,
-			updateAt: now
-		},
-		{
-			todoId: 'eec1f695-1c94-470a-81af-0052dcffa8d8', 
-			name: 'My Todo 2',
-			description: 'My Todo 2 description',
-			dueDate: 1645574400,
-			completed: false,
-			createdAt: now,
-			updateAt: now
-		},
-		{
-			todoId: '9dc162e2-3a7f-420d-bdd0-d807fd985448', 
-			name: 'My Todo 3',
-			description: 'My Todo 3 description',
-			dueDate: 0,
-			completed: false,
-			createdAt: now,
-			updateAt: now
-		},
-		{
-			todoId: '607a3c1b-1dd2-4020-8728-14151cdaa387', 
-			name: 'My Todo 4',
-			description: 'My Todo 4 description',
-			dueDate: 0,
-			completed: true,
-			createdAt: now,
-			updateAt: now
-		},
-		{
-			todoId: 'ca83e6d2-6c38-4218-a9f3-a80d3cdb3c13', 
-			name: 'My Todo 5',
-			description: 'My Todo 5 description',
-			dueDate: 0,
-			completed: true,
-			createdAt: now,
-			updateAt: now
-		}
-	])
+	collection.insertMany(todoFixtures)
 });
 
 test.afterEach.always(async t => {
@@ -123,20 +76,34 @@ test.serial('create todo', async t => {
 });
 
 test.serial('update todos', async t => {
-	const {app} = t.context;
+	const {app, collection} = t.context;
+	const todo = todoFixtures[0];
+
 	const res = await request(app)
-		.put(`/api/todos/${randomUUID()}`)
-		.send({name: 'My new todo'});
+		.put(`/api/todos/${todo.todoId}`)
+		.send({name: 'New todo name'});
+
+	const doc = await collection.findOne({
+		todoId: todo.todoId
+	});
 
 	t.is(res.status, 200);
+	t.is(doc?.name, 'New todo name');
 });
 
 test.serial('delete todos', async t => {
-	const {app} = t.context;
+	const {app, collection} = t.context;
+	const todo = todoFixtures[0];
+
 	const res = await request(app)
-		.delete(`/api/todos/${randomUUID()}`);
+		.delete(`/api/todos/${todo.todoId}`);
+
+	const doc = await collection.findOne({
+		todoId: todo.todoId
+	});
 
 	t.is(res.status, 204);
+	t.is(doc, null);
 });
 
 test.serial('set todo to complete', async t => {

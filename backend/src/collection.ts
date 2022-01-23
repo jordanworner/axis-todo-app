@@ -8,7 +8,7 @@ export interface TodoDocument {
   dueDate: number;
   completed: boolean;
   createdAt: Date;
-  updateAt: Date;
+  updatedAt: Date;
 }
 
 export type TodoCollection = Collection<TodoDocument>;
