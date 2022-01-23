@@ -7,6 +7,8 @@ export interface TodoDocument {
   description: string;
   dueDate: number;
   completed: boolean;
+  createdAt: Date;
+  updateAt: Date;
 }
 
 export type TodoCollection = Collection<TodoDocument>;
