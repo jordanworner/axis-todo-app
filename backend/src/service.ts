@@ -60,3 +60,29 @@ export const deleteTodo = async (todoId: string): Promise<boolean> => {
 
   return result.deletedCount ? true : false;
 };
+
+export const setTodoCompleted = async (todoId: string, completed: boolean): Promise<Todo | null> => {
+  const collection = getTodoCollection();
+  const now = new Date();
+
+  const result = await collection.findOneAndUpdate(
+    {
+      todoId
+    }, 
+    {
+      $set: {
+        completed,
+        updatedAt: now
+      }
+    },
+    {
+      returnDocument: ReturnDocument.AFTER
+    }
+  );
+
+  if (!result.value) {
+    return null;
+  }
+
+  return Todo.parse(result.value);
+};

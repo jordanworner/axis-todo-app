@@ -75,6 +75,25 @@ test.serial('create todo', async t => {
 	t.not(doc, null);
 });
 
+test.serial('create todo with provided ID', async t => {
+	const {app, collection} = t.context;
+	const todoId = randomUUID();
+
+	const res = await request(app)
+		.post('/api/todos')
+		.send({
+			todoId,
+			name: 'My new todo'
+		});
+
+	const doc = await collection.findOne({
+		todoId
+	});
+
+	t.is(res.status, 201);
+	t.not(doc, null);
+});
+
 test.serial('update todos', async t => {
 	const {app, collection} = t.context;
 	const todo = todoFixtures[0];
@@ -107,21 +126,35 @@ test.serial('delete todos', async t => {
 });
 
 test.serial('set todo to complete', async t => {
-	const {app} = t.context;
+	const {app, collection} = t.context;
+	const todo = todoFixtures[0];
+
 	const res = await request(app)
-		.post(`/api/todos/${randomUUID()}/complete`)
+		.post(`/api/todos/${todo.todoId}/complete`)
 		.send({ completed: true });
 
+	const doc = await collection.findOne({
+		todoId: todo.todoId
+	});
+
 	t.is(res.status, 200);
+	t.is(doc?.completed, true);
 });
 
 test.serial('set todo to incomplete', async t => {
-	const {app} = t.context;
+	const {app, collection} = t.context;
+	const todo = todoFixtures[4];
+
 	const res = await request(app)
-		.post(`/api/todos/${randomUUID()}/complete`)
+		.post(`/api/todos/${todo.todoId}/complete`)
 		.send({ completed: false });
 
+	const doc = await collection.findOne({
+		todoId: todo.todoId
+	});
+
 	t.is(res.status, 200);
+	t.is(doc?.completed, false);
 });
 
 test.after.always(async t => {

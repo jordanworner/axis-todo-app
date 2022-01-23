@@ -155,14 +155,20 @@ export interface SetTodoCompletedResponse {
 
 export const setTodoCompletedHandler: RequestHandler<
   { todoId: string }, SetTodoCompletedResponse, SetTodoCompletedRequest
-> = (req, res) => {
+> = async (req, res, next) => {
   const todoId = Todo.shape.todoId.parse(req.params.todoId);
   // parse the completed body field, schema defaults to false if undefined
   const completed = Todo.shape.completed.parse(req.body.completed);
 
-  res.status(200).json({
-    success: true,
-  });
+  try {
+    await todoService.setTodoCompleted(todoId, completed);
+
+    res.status(200).json({
+      success: true,
+    });
+  } catch (err) {
+    next(err);
+  }
 }
 
 export const setupRoutes = (app: Express): void => {
