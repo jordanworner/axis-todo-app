@@ -2,8 +2,8 @@ import 'dotenv/config';
 import express from 'express';
 import { config } from "./config";
 import { databaseConnect } from "./database";
-import { httpLogger, log } from './logger';
-import { setupRoutes } from './routes';
+import { log } from './logger';
+import { setupServer } from './server';
 
 const main = async () => {
   // wait for the database to connect
@@ -11,20 +11,9 @@ const main = async () => {
 
   const app = express();
 
-  /**
-   * Middleware
-   */
-  app.use(httpLogger);
-  app.use(express.json());
-
-  /**
-   * Routes
-   */
-  setupRoutes(app);
-
-  /**
-   * Listen
-   */
+  setupServer(app);
+  
+  // Start server
   app.listen(config.port, () => {
     log.info(`Listening on port ${config.port}`);
   });
