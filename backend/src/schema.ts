@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 export type Todo = z.infer<typeof Todo>;
 export const Todo = z.object({
-  id: z.string().uuid().default(() => randomUUID()),
+  todoId: z.string().uuid().default(() => randomUUID()),
   name: z.string().nonempty(),
   description: z.string().default(''),
   dueDate: z.number().default(0),

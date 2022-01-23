@@ -2,7 +2,7 @@ import { Collection } from "mongodb";
 import { getDb } from "./database";
 
 export interface TodoDocument {
-  id: string;
+  todoId: string;
   name: string;
   description: string;
   dueDate: number;
@@ -25,5 +25,5 @@ export const getTodoCollection = (): TodoCollection => {
 // async function to setup collections, indexes etc
 export const setupCollections = async () => {
   const todos = getTodoCollection();
-  await todos.createIndex({ id: 1 }, { unique: true })
+  await todos.createIndex({ todoId: 1 }, { unique: true })
 }
