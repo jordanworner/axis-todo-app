@@ -1,5 +1,5 @@
 import express from 'express';
-import { httpLogger, log } from './logger';
+import { httpLogger } from './logger';
 import { setupRoutes } from './routes';
 
 export const setupServer = (app: express.Express): void => {
