@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node build/src/index.js",
     "dev": "nodemon --watch build/src",
+    "dev:database": "node scripts/mongodb.js",
     "test": "ava",
     "test:watch": "ava --watch",
     "build": "tsc -p .",
