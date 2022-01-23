@@ -6,10 +6,10 @@
 - [x] MongoDB
 - [x] Test setup
 - [x] Express server
-- [ ] Error handling
-- [ ] Schema
-- [ ] Routes
-- [ ] Service methods
+- [x] Error handling
+- [x] Schema
+- [x] Routes
+- [x] Service methods
 - [x] Logging
 - [x] Config
 

@@ -19,8 +19,16 @@ const main = async () => {
   app.listen(config.port, () => {
     log.info(`Listening on port ${config.port}`);
   });
-
 };
+
+process.on('unhandledRejection', (err) => {
+  throw err;
+});
+
+process.on('uncaughtException', (err) => {
+  log.error(err);
+  process.exit(1);
+});
 
 main().catch(err => {
   log.error(err);
