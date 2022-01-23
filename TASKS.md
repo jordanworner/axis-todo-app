@@ -5,12 +5,12 @@
 - [x] Scaffolding
 - [x] MongoDB
 - [x] Test setup
-- [ ] Express server
+- [x] Express server
 - [ ] Error handling
 - [ ] Schema
 - [ ] Routes
 - [ ] Service methods
-- [ ] Logging
+- [x] Logging
 - [x] Config
 
 ## Frontend

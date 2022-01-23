@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import { config } from "./config";
 import { databaseConnect } from "./database";
+import { httpLogger, log } from './logger';
 import { setupRoutes } from './routes';
 
 const main = async () => {
@@ -13,6 +14,7 @@ const main = async () => {
   /**
    * Middleware
    */
+  app.use(httpLogger);
   app.use(express.json());
 
   /**
@@ -21,21 +23,15 @@ const main = async () => {
   setupRoutes(app);
 
   /**
-   * Error and 404 Handlers
-   */
-
-  // TODO
-
-  /**
    * Listen
    */
   app.listen(config.port, () => {
-    console.log(`Listening on port ${config.port}`);
+    log.info(`Listening on port ${config.port}`);
   });
 
 };
 
 main().catch(err => {
-  console.error(err);
+  log.error(err);
   process.exit(1);
 });
