@@ -32,7 +32,7 @@ export const databaseConnect = async (uri: string, database: string): Promise<vo
  * Returns a Mongo Db object, or throws an error if it hasn't been created
  */
 export const getDb = (): Db => {
-  if (db) {
+  if (!db) {
     throw new Error('Database has not been created, please run databaseConnect');
   }
 
@@ -43,7 +43,7 @@ export const getDb = (): Db => {
  * Returns the MongoClient object, or throws an error if it hasn't been created
  */
 export const getClient = (): MongoClient => {
-  if (client) {
+  if (!client) {
     throw new Error('Client has not been created, please run databaseConnect');
   }
 

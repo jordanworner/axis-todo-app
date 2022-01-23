@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
+import { setupCollections } from './collection';
 import { config } from "./config";
 import { databaseConnect } from "./database";
 import { log } from './logger';
@@ -8,6 +9,7 @@ import { setupServer } from './server';
 const main = async () => {
   // wait for the database to connect
   await databaseConnect(config.mongoUri, config.mongoDatabase);
+  await setupCollections();
 
   const app = express();
 
