@@ -41,8 +41,8 @@ export const TodoApp: React.FC<TodoAppProps> = () => {
   }
 
   return (
-    <div className="lg:py-32">
-      <div className="shadow-md lg:max-w-lg lg:rounded-lg m-auto p-6 bg-white">
+    <div className="md:py-16 lg:py-32">
+      <div className="shadow-md md:max-w-lg md:rounded-lg m-auto p-6 bg-white">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-medium">Todo App</h1>
           <div>
