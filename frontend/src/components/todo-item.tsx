@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Todo } from '../api';
 import { Button } from './button';
 import { CheckCircleIcon } from '@heroicons/react/outline';
+import clsx from 'clsx';
 
 export interface TodoItemProps {
   todo: Todo;
@@ -17,7 +18,10 @@ export const TodoItem: React.FC<TodoItemProps> = (props) => {
       <div>
         <button 
           type="button" 
-          className="rounded p-2 -mt-1.5 text-gray-300 hover:text-gray-800"
+          className={clsx(
+            'rounded p-2 -mt-1.5',
+            todo.completed ? 'text-gray-800' : 'text-gray-300 hover:text-gray-800'
+          )}
           onClick={onToggleComplete}
         >
           <CheckCircleIcon className="w-5 h-5" />

@@ -12,12 +12,13 @@ export interface TodoFormProps {
   onCancel?: () => void;
   onSubmit?: (fields: TodoFormFields) => void;
   disabled?: boolean;
+  defaultFields?: Partial<TodoFormFields>
 }
 
 export const TodoForm: React.FC<TodoFormProps> = (props) => {
-  const {onCancel, onSubmit, disabled = false} = props;
-  const [name, setName] = React.useState('');
-  const [description, setDescription] = React.useState('');
+  const {onCancel, onSubmit, disabled = false, defaultFields = {}} = props;
+  const [name, setName] = React.useState(defaultFields.name ?? '');
+  const [description, setDescription] = React.useState(defaultFields.description ?? '');
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
