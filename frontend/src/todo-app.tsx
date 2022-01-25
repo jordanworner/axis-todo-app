@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Button } from './components/button';
 import { Modal } from './components/modal';
 import { TodoForm, TodoFormFields } from './components/todo-form';
+import { Todos } from './components/todos';
 import { useCreateTodo } from './hooks';
 
 export interface TodoAppProps {}
@@ -31,7 +32,11 @@ export const TodoApp: React.FC<TodoAppProps> = () => {
         <div>
           <Button variant="primary" onClick={openCreateModel}>Add</Button>
         </div>
-
+        <React.Suspense fallback={
+          <div>Loading...</div>
+        }>
+          <Todos />
+        </React.Suspense>
         <Modal 
           title="Add New Todo"
           open={showCreateModal} 
