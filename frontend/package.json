@@ -8,6 +8,9 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.4.3",
+    "@heroicons/react": "^1.0.5",
+    "@reach/auto-id": "^0.16.0",
+    "clsx": "^1.1.1",
     "react": "^17.0.2",
     "react-async-hook": "^4.0.0",
     "react-dom": "^17.0.2",
