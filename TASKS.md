@@ -28,7 +28,7 @@
 - [x] Completed Item
 - [x] Button
 - [x] Modal
-- [ ] Create/Update Form
+- [x] Create/Update Form
 - [ ] Edit Menu
 - [ ] Toast Notifications
 

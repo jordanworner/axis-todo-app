@@ -31,11 +31,11 @@ From the project root go to the frontend directory
 
 `cd frontend`
 
-In another terminal session start an in Memory MongoDB instance
+Build the service
 
 `npm run build`
 
-Build and start the backend service
+Start the frontend service
 
 `npm run preview`
 
