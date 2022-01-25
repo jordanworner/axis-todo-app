@@ -15,24 +15,24 @@
 
 ## Frontend
 
-- [ ] Scaffolding (Vite)
-- [ ] TailwindCSS
+- [x] Scaffolding (Vite)
+- [x] TailwindCSS
 - [ ] Test setup
 
 ## Frontend Components
 
-- [ ] App/Shell
-- [ ] Not Completed List
-- [ ] Not Completed Item
-- [ ] Completed List
-- [ ] Completed Item
-- [ ] Button
-- [ ] Modal
+- [x] App/Shell
+- [x] Not Completed List
+- [x] Not Completed Item
+- [x] Completed List
+- [x] Completed Item
+- [x] Button
+- [x] Modal
 - [ ] Create/Update Form
 - [ ] Edit Menu
 - [ ] Toast Notifications
 
 ## Other
 
-- [ ] Docker and Docker Compose
-- [ ] Document instructions
+- [x] Docker and Docker Compose
+- [x] Document run instructions
