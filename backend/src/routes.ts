@@ -41,7 +41,7 @@ export const listTodosHandler: RequestHandler<
 
 // Create Todo
 export interface CreateTodoRequest {
-  id?: string;
+  todoId?: string;
   name: string;
   descriptions?: string;
   dueDate?: number;
@@ -136,7 +136,7 @@ export const deleteTodoHandler: RequestHandler<
   try {
     const success = await todoService.deleteTodo(todoId);
 
-    res.status(204).json({
+    res.status(200).json({
       success,
     });
   } catch (err) {
