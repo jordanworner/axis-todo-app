@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { Button } from './components/button';
 import { Modal } from './components/modal';
+import { TodoForm, TodoFormFields } from './components/todo-form';
+import { useCreateTodo } from './hooks';
 
 export interface TodoAppProps {}
 
 export const TodoApp: React.FC<TodoAppProps> = () => {
   const [showCreateModal, setShowCreateModal] = React.useState(false);
+  const createTodo = useCreateTodo();
 
   const closeCreateModal = () => {
     setShowCreateModal(false)
@@ -13,6 +16,12 @@ export const TodoApp: React.FC<TodoAppProps> = () => {
 
   const openCreateModel = () => {
     setShowCreateModal(true);
+  }
+
+  const handleAdd = async (fields: TodoFormFields) => {
+    createTodo.execute(fields).then(() => {
+      closeCreateModal();
+    })
   }
 
   return (
@@ -28,7 +37,11 @@ export const TodoApp: React.FC<TodoAppProps> = () => {
           open={showCreateModal} 
           onClose={closeCreateModal}
         >
-    
+          <TodoForm 
+            onCancel={closeCreateModal} 
+            onSubmit={handleAdd}
+            disabled={createTodo.loading}
+          />
         </Modal>
       </div>
     </div>
