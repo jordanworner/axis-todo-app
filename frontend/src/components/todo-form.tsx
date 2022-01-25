@@ -19,13 +19,21 @@ export const TodoForm: React.FC<TodoFormProps> = (props) => {
   const {onCancel, onSubmit, disabled = false, defaultFields = {}} = props;
   const [name, setName] = React.useState(defaultFields.name ?? '');
   const [description, setDescription] = React.useState(defaultFields.description ?? '');
+  const [dueDate, setDueDate] = React.useState(() => {
+    if (!defaultFields.dueDate) {
+      return '';
+    }
+
+    const date = new Date(defaultFields.dueDate);
+    return date.toISOString().split('T')[0];
+  });
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     onSubmit?.({
       name,
       description,
-      dueDate: 0
+      dueDate: dueDate ? (new Date(dueDate)).getTime() : 0
     });
   };
 
@@ -48,13 +56,14 @@ export const TodoForm: React.FC<TodoFormProps> = (props) => {
             onChange={e => setDescription(e.target.value)}
             disabled={disabled}
           />
-          {/* <Input 
+          <Input 
             label="Due Date"
             name="dueDate" 
             type="date"
             value={dueDate} 
             onChange={e => setDueDate(e.target.value)}
-          /> */}
+            disabled={disabled}
+          />
         </div>
 
         <div className="mt-4 text-right space-x-4">

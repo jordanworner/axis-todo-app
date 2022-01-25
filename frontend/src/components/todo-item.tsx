@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Todo } from '../api';
 import { Button } from './button';
-import { CheckCircleIcon } from '@heroicons/react/outline';
+import { CalendarIcon, CheckCircleIcon } from '@heroicons/react/outline';
 import clsx from 'clsx';
 
 export interface TodoItemProps {
@@ -13,6 +13,15 @@ export interface TodoItemProps {
 
 export const TodoItem: React.FC<TodoItemProps> = (props) => {
   const {todo, onDelete, onEdit, onToggleComplete} = props;
+
+  const date = React.useMemo(() => {
+    if (!todo.dueDate) {
+      return null;
+    }
+
+    return (new Date(todo.dueDate)).toISOString().split('T')[0];
+  }, [todo.dueDate]);
+
   return (
     <div className="flex py-3 group">
       <div>
@@ -35,8 +44,14 @@ export const TodoItem: React.FC<TodoItemProps> = (props) => {
             {todo.description}
           </p>
         )}
+
+        {date && (
+          <p className="text-sm text-gray-600 flex items-center">
+            <CalendarIcon className="h-4 w-4 mr-1" /> Due: {date}
+          </p>
+        )}
       </div>
-      <div className="space-x-3 opacity-0 group-hover:opacity-100 focus-within:opacity-100">
+      <div className="space-x-3 md:opacity-0 group-hover:opacity-100 focus-within:opacity-100">
         {!todo.completed && (
           <Button size="xs" onClick={onEdit}>Edit</Button>
         )}
